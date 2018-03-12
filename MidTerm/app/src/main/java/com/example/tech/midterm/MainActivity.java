@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
     // private TextView msg;
     private int cardAmount;
 
-
+    
     // private Button [] cardButton= new Button[16];
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,9 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
             pic1.setImageResource(DRAWABLE_ID[card1]);
             pic2.setImageResource(DRAWABLE_ID[card2]);
-
         }
     }
-
 
 }
