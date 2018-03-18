@@ -1,8 +1,14 @@
+// midterm by Minxu Huang and nicoles , 2018,3,18, Matching cards
 package com.example.tech.midterm;
 
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.TextView;
 
 import java.util.Random;
 
@@ -66,52 +72,150 @@ public class MainActivity extends AppCompatActivity {
     };
 
 
+    private ImageButton[] card = new ImageButton[9];
 
-    private ImageButton pic1;
-    private ImageButton pic2;
+    private ImageButton[] pic3 = new ImageButton[4];
 
-    private ImageButton pic3;
-
-    private ImageButton[]storePic=new ImageButton[8];
+    //private ImageButton[]storePic = new ImageButton[4];
 
 
-    // private TextView msg;
+    private TextView msg;
+    private TextView score;
+    private  int scor = 0;
+    private TextView timer;
+    private  float time = 30000/10000;
+
     private int cardAmount;
 
-    
-    // private Button [] cardButton= new Button[16];
+    private Button reset;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-    }
+        msg = findViewById(R.id.msg);
+        msg.setText("Pick a card, any card");
 
-    public void RandomCard() {
-        for (int x = 0;x<4;x++) {
-            String aButtonId = "A" + (x + 1);
-            String bButtonId = "B" + (x + 1);
-            String cButtonId = "C" + (x + 1);
-            String dButtonId = "D" + (x + 1);
+        score = findViewById(R.id.Score);
+        score.setText("Score: " + scor);
 
-            // cardButton[x] = findViewById(R.id.A1);
-            int resID = getResources().getIdentifier(aButtonId,
-                    "id", getPackageName());
-            //cardButton[x] = (findViewById(resID));
-            final int finalI = x;
+        timer = findViewById(R.id.Timer);
+        new CountDownTimer(30000, 1000){
+            public void onTick(long second) {
+                timer.setText("Time Left: " + second / 1000);
+                if(second == 0){
 
-            for (int y = 0; y < 8; y++) {
-                int card3 = new Random().nextInt(52);
-                pic3.setImageResource(DRAWABLE_ID[card3]);
-                cardAmount++;
+                }
+            }
+            public void onFinish() {
+                msg.setText("Times up");
             }
 
-            int card1 = new Random().nextInt(8);
-            int card2 = new Random().nextInt(8);
+        }.start();
 
-            pic1.setImageResource(DRAWABLE_ID[card1]);
-            pic2.setImageResource(DRAWABLE_ID[card2]);
+        card[0]= (ImageButton)findViewById(R.id.A1);
+        card[0].setOnClickListener(new View.OnClickListener(){
+             public void onClick(View v){
+                 RandomCard(1);
+             }
+        });
+
+        card[1]= (ImageButton)findViewById(R.id.A2);
+        card[1].setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                RandomCard(2);
+            }
+        });
+
+        card[2]= (ImageButton)findViewById(R.id.A3);
+        card[2].setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                RandomCard(3);
+            }
+        });
+
+        card[3]= (ImageButton)findViewById(R.id.B1);
+        card[3].setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                RandomCard(4);
+            }
+        });
+
+        card[4]= (ImageButton)findViewById(R.id.B2);
+        card[4].setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                RandomCard(5);
+            }
+        });
+
+        card[5]= (ImageButton)findViewById(R.id.B3);
+        card[5].setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                RandomCard(6);
+            }
+        });
+
+        card[6]= (ImageButton)findViewById(R.id.C1);
+        card[6].setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                RandomCard(7);
+            }
+        });
+
+        card[7]= (ImageButton)findViewById(R.id.C2);
+        card[7].setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                RandomCard(8);
+            }
+        });
+
+        card[8]= (ImageButton)findViewById(R.id.C3);
+        card[8].setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                RandomCard(9);
+            }
+        });
+
+
+    }
+//  pick cards out of the 52 cards
+    public void RandomCard(int cardd) {
+        for (int y = 0; y < pic3.length; y++) {
+            int cards3 = new Random().nextInt(52);
+            pic3[y].setImageResource(DRAWABLE_ID[cards3]);
+        }
+            int cards1 = new Random().nextInt(pic3.length);
+            int cards2 = new Random().nextInt(pic3.length);
+            if (cardd == 1) {
+                card[0].setImageResource(DRAWABLE_ID[cards1]);
+                cards1--;
+            } else if (cardd == 2) {
+                card[1].setImageResource(DRAWABLE_ID[cards1]);
+                cards1--;
+            } else if (cardd == 3) {
+                card[2].setImageResource(DRAWABLE_ID[cards1]);
+                cards1--;
+            } else if (cardd == 4) {
+                card[3].setImageResource(DRAWABLE_ID[cards1]);
+                cards1--;
+            } else if (cardd == 5) {
+                card[4].setImageResource(DRAWABLE_ID[cards2]);
+                cards2--;
+            } else if (cardd == 6) {
+                 card[5].setImageResource(DRAWABLE_ID[cards2]);
+                 cards2--;
+             }
+            else if (cardd == 7) {
+                card[6].setImageResource(DRAWABLE_ID[cards2]);
+                cards2--;
+            }
+            else if (cardd == 8) {
+                card[7].setImageResource(DRAWABLE_ID[cards2]);
+                cards2--;
+            }
+            else if (cardd == 9) {
+                card[8].setImageResource(DRAWABLE_ID[new Random().nextInt(52)]);
+            }
+
         }
     }
-
-}
