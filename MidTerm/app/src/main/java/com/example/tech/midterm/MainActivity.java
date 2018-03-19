@@ -1,4 +1,6 @@
 // midterm by Minxu Huang and Nicolas Patino, 2018,3,18, Matching cards
+//when play select the first card
+//when selecting the second card the card won't flip select each one of them and the one that match will flip
 //if nothing show run again
 // if press reset button and crashed run it again.
 //if you cannot select another card it is the single card so select it aging to flip back and continue the game.
@@ -93,12 +95,12 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private int pic = -1;
-    private int pic2 = -1;
-    private int keeppic2 = -1;
+    private int pic ;
+    private int pic2 ;
+    private int keeppic2;
 
-    private int storePic = -1;
-    private int storePic2 = -1;
+    private int storePic ;
+    private int storePic2 ;
 
     private boolean flipcard[]= new boolean[9];
     private  int cards[] = new int [9];
@@ -124,6 +126,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         setRandom();
+        keeppic2 =-1;
+        pic= -1;
+        pic2=-1;
+        storePic =-1;
+        storePic2=-1;
 
         card[0] = (ImageButton) findViewById(R.id.A1);
         card[0].setOnClickListener(new View.OnClickListener() {
@@ -287,7 +294,8 @@ public class MainActivity extends AppCompatActivity {
             flipcard[cardd] = true;
             msg.setText("pick another card");
             card[cardd].setImageResource(DRAWABLE_ID[cards[cardd]]);
-        }else if (pic == cardd && flipcard[cardd] == true&& pic2== -1){
+        }
+        else if (pic == cardd && flipcard[cardd] == true&& pic2== -1){
             pic = -1;
             storePic = -1;
             flipcard[cardd] = false;
@@ -295,7 +303,8 @@ public class MainActivity extends AppCompatActivity {
             card[cardd].setImageResource(DRAWABLE_ID[52]);
             if(keeppic2 != -1)
                 card[keeppic2].setImageResource(DRAWABLE_ID[52]);
-        }else if(pic2 == -1 && flipcard[cardd] == false){
+        }
+        else if(pic2 == -1 && flipcard[cardd] == false){
             pic2 = cardd;
             storePic2= cards[cardd];
             if(keeppic2 != -1)
@@ -303,7 +312,6 @@ public class MainActivity extends AppCompatActivity {
             keeppic2 = cardd;
             flipcard[cardd] = true;
             card[cardd].setImageResource(DRAWABLE_ID[cards[cardd]]);
-
             if (storePic==storePic2){
                 msg.setText("Corret!!");
                 keeppic2 =-1;
