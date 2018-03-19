@@ -76,18 +76,27 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageButton[] pic3 = new ImageButton[4];
 
-    //private ImageButton[]storePic = new ImageButton[4];
+
 
 
     private TextView msg;
     private TextView score;
     private  int scor = 0;
     private TextView timer;
-    private  float time = 30000/10000;
+    private  float time = 30000;
 
     private int cardAmount;
 
     private Button reset;
+
+    private int pic = -1;
+    private int pic2 = -1;
+
+    private int storePic;
+    private int storePic2;
+
+    private boolean[] flipcard = new boolean[9];
+    private  int cards[] = new int [9];
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,122 +109,187 @@ public class MainActivity extends AppCompatActivity {
         score.setText("Score: " + scor);
 
         timer = findViewById(R.id.Timer);
-        new CountDownTimer(30000, 1000){
+        new CountDownTimer(30000, 1000) {
             public void onTick(long second) {
                 timer.setText("Time Left: " + second / 1000);
-                if(second == 0){
+
+            }
+
+            public void onFinish() {
+                for (int x = 0; x < 9; x++) {
+                    card[x].setImageResource(DRAWABLE_ID[52]);
 
                 }
-            }
-            public void onFinish() {
-                msg.setText("Times up");
             }
 
         }.start();
 
-        card[0]= (ImageButton)findViewById(R.id.A1);
-        card[0].setOnClickListener(new View.OnClickListener(){
-             public void onClick(View v){
-                 RandomCard(1);
-             }
+        random();
+
+        card[0] = (ImageButton) findViewById(R.id.A1);
+        card[0].setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                RandomCard(0);
+            }
         });
 
-        card[1]= (ImageButton)findViewById(R.id.A2);
-        card[1].setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
+        card[1] = (ImageButton) findViewById(R.id.A2);
+        card[1].setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                RandomCard(1);
+            }
+        });
+
+        card[2] = (ImageButton) findViewById(R.id.A3);
+        card[2].setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 RandomCard(2);
             }
         });
 
-        card[2]= (ImageButton)findViewById(R.id.A3);
-        card[2].setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
+        card[3] = (ImageButton) findViewById(R.id.B1);
+        card[3].setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 RandomCard(3);
             }
         });
 
-        card[3]= (ImageButton)findViewById(R.id.B1);
-        card[3].setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
+        card[4] = (ImageButton) findViewById(R.id.B2);
+        card[4].setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 RandomCard(4);
             }
         });
 
-        card[4]= (ImageButton)findViewById(R.id.B2);
-        card[4].setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
+        card[5] = (ImageButton) findViewById(R.id.B3);
+        card[5].setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 RandomCard(5);
             }
         });
 
-        card[5]= (ImageButton)findViewById(R.id.B3);
-        card[5].setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
+        card[6] = (ImageButton) findViewById(R.id.C1);
+        card[6].setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 RandomCard(6);
             }
         });
 
-        card[6]= (ImageButton)findViewById(R.id.C1);
-        card[6].setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
+        card[7] = (ImageButton) findViewById(R.id.C2);
+        card[7].setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 RandomCard(7);
             }
         });
 
-        card[7]= (ImageButton)findViewById(R.id.C2);
-        card[7].setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
+        card[8] = (ImageButton) findViewById(R.id.C3);
+        card[8].setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 RandomCard(8);
             }
         });
 
-        card[8]= (ImageButton)findViewById(R.id.C3);
-        card[8].setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                RandomCard(9);
-            }
-        });
 
+            flipcard[0] = false;
+            flipcard[1] = false;
+            flipcard[2] = false;
+            flipcard[3] = false;
+        flipcard[4] = false;
+        flipcard[5] = false;
+        flipcard[6] = false;
+        flipcard[7] = false;
+        flipcard[8] = false;
 
+    }
+    int ind ;
+
+    public void random()
+    {
+        int tempCards[]= new int[5];
+        int randomCard;
+        boolean duplicate = false;
+
+        for (int x = 0 ; x < tempCards.length ; x++)
+        {
+            tempCards[x] = -1;
+        }
+
+        for (int i = 0 ; i < tempCards.length ; i++)
+        {
+            duplicate = false;
+            do
+            {
+                randomCard = new Random().nextInt(52);
+
+                for (int d = 0 ; d < tempCards.length ; d++)
+                {
+                    if (randomCard == tempCards[d])
+                        duplicate = true;
+                }
+
+            }   while (duplicate == true);
+            tempCards[i] = randomCard;
+        }
+
+        for (int x = 0 ; x < cards.length ; x++)
+        {
+            cards[x] = -1;
+        }
+
+        for (int i = 0 ; i < 4; i++)
+        {
+            do {
+                ind = new Random().nextInt(9);
+            }while (cards[ind] != -1);
+
+            cards[ind] = tempCards[i];
+
+            do {
+                ind = new Random().nextInt(9);
+            }   while (cards[ind] != -1);
+
+            cards[ind] = tempCards[i];
+
+        }
+
+        do {
+            ind = new Random().nextInt(9);
+        }   while (cards[ind] != -1);
+        cards[ind] = tempCards[4];
     }
 //  pick cards out of the 52 cards
     public void RandomCard(int cardd) {
-        for (int y = 0; y < pic3.length; y++) {
-            int cards3 = new Random().nextInt(52);
-            pic3[y].setImageResource(DRAWABLE_ID[cards3]);
-        }
-            int cards1 = new Random().nextInt(pic3.length);
-            int cards2 = new Random().nextInt(pic3.length);
-            if (cardd == 1) {
-                card[0].setImageResource(DRAWABLE_ID[cards1]);
-                cards1--;
-            } else if (cardd == 2) {
-                card[1].setImageResource(DRAWABLE_ID[cards1]);
-                cards1--;
-            } else if (cardd == 3) {
-                card[2].setImageResource(DRAWABLE_ID[cards1]);
-                cards1--;
-            } else if (cardd == 4) {
-                card[3].setImageResource(DRAWABLE_ID[cards1]);
-                cards1--;
-            } else if (cardd == 5) {
-                card[4].setImageResource(DRAWABLE_ID[cards2]);
-                cards2--;
-            } else if (cardd == 6) {
-                 card[5].setImageResource(DRAWABLE_ID[cards2]);
-                 cards2--;
-             }
-            else if (cardd == 7) {
-                card[6].setImageResource(DRAWABLE_ID[cards2]);
-                cards2--;
-            }
-            else if (cardd == 8) {
-                card[7].setImageResource(DRAWABLE_ID[cards2]);
-                cards2--;
-            }
-            else if (cardd == 9) {
-                card[8].setImageResource(DRAWABLE_ID[new Random().nextInt(52)]);
-            }
+        if(pic == -1 && flipcard[cardd] == false) {
+            pic = cardd;
+            storePic = cards[cardd];
+            flipcard[cardd] = true;
+            msg.setText("pick another card");
+            card[cardd].setImageResource(DRAWABLE_ID[cards[cardd]]);
+        }else if (pic == cardd && flipcard[cardd] == true&& pic2== -1){
+            pic = -1;
+            storePic = -1;
+            flipcard[cardd] = false;
+            msg.setText("pick a card");
+            card[cardd].setImageResource(DRAWABLE_ID[52]);
 
+        }else if(pic2 == -1 && flipcard[cardd] == false){
+            pic2 = cardd;
+            storePic2= cards[cardd];
+            flipcard[cardd] = true;
+            card[cardd].setImageResource(DRAWABLE_ID[cards[cardd]]);
+            if (pic==pic2){
+                msg.setText("Corret!!");
+                scor++;
+                score.setText("Score: "+scor);
+            }else{
+                msg.setText("pick another one");
+
+                card[cardd].setImageResource(DRAWABLE_ID[52]);
+                pic2 = -1;
+                storePic2 = -1;
+            }
+          }
         }
     }
+
+
