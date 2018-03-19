@@ -295,7 +295,6 @@ public class MainActivity extends AppCompatActivity {
             card[cardd].setImageResource(DRAWABLE_ID[52]);
             if(keeppic2 != -1)
                 card[keeppic2].setImageResource(DRAWABLE_ID[52]);
-
         }else if(pic2 == -1 && flipcard[cardd] == false){
             pic2 = cardd;
             storePic2= cards[cardd];
