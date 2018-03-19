@@ -1,12 +1,17 @@
-// midterm by Minxu Huang and nicoles , 2018,3,18, Matching cards
+// midterm by Minxu Huang and Nicolas Patino, 2018,3,18, Matching cards
+//if nothing show run again
+// if press reset button and crashed run it again.
+//if you cannot select another card it is the single card so select it aging to flip back and continue the game.
 package com.example.tech.midterm;
 
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -83,24 +88,30 @@ public class MainActivity extends AppCompatActivity {
     private TextView score;
     private  int scor = 0;
     private TextView timer;
-    private  float time = 30000;
 
     private int cardAmount;
 
-    private Button reset;
+
 
     private int pic = -1;
     private int pic2 = -1;
+    private int keeppic2 = -1;
 
-    private int storePic;
-    private int storePic2;
+    private int storePic = -1;
+    private int storePic2 = -1;
 
-    private boolean[] flipcard = new boolean[9];
+    private boolean flipcard[]= new boolean[9];
     private  int cards[] = new int [9];
+
+    private Button resetButton;
+    private  long time = 30000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        for(int x = 0; x<9;x++)
+            flipcard[x]= false;
 
         msg = findViewById(R.id.msg);
         msg.setText("Pick a card, any card");
@@ -108,23 +119,11 @@ public class MainActivity extends AppCompatActivity {
         score = findViewById(R.id.Score);
         score.setText("Score: " + scor);
 
+
         timer = findViewById(R.id.Timer);
-        new CountDownTimer(30000, 1000) {
-            public void onTick(long second) {
-                timer.setText("Time Left: " + second / 1000);
 
-            }
 
-            public void onFinish() {
-                for (int x = 0; x < 9; x++) {
-                    card[x].setImageResource(DRAWABLE_ID[52]);
-
-                }
-            }
-
-        }.start();
-
-        random();
+        setRandom();
 
         card[0] = (ImageButton) findViewById(R.id.A1);
         card[0].setOnClickListener(new View.OnClickListener() {
@@ -190,20 +189,44 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-            flipcard[0] = false;
-            flipcard[1] = false;
-            flipcard[2] = false;
-            flipcard[3] = false;
-        flipcard[4] = false;
-        flipcard[5] = false;
-        flipcard[6] = false;
-        flipcard[7] = false;
-        flipcard[8] = false;
+        final CountDownTimer tim = new CountDownTimer(time, 1000) {
+            public void onTick(long second) {
+                timer.setText("Time Left: " + second / 1000);
 
+            }
+
+            public void onFinish() {
+                msg.setText("Times up");
+                resetButton.setVisibility(View.VISIBLE);
+                resetButton.setText("Reset");
+            }
+
+        }.start();
+
+        resetButton = findViewById(R.id.reset);
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                for (int x = 0; x < cards.length; x++) {
+                    card[x].setImageResource(DRAWABLE_ID[52]);
+                    tim.start();
+                    scor = 0;
+                    score.setText("Score: " + scor);
+                    msg.setText("Pick a card, any card");
+                    flipcard[x]=false;
+                }
+                keeppic2 =-1;
+                pic= -1;
+                pic2=-1;
+                storePic =-1;
+                storePic2=-1;
+                resetButton.setVisibility(View.INVISIBLE);
+                setRandom();
+            }
+        });
     }
     int ind ;
 
-    public void random()
+    public void setRandom()
     {
         int tempCards[]= new int[5];
         int randomCard;
@@ -213,7 +236,6 @@ public class MainActivity extends AppCompatActivity {
         {
             tempCards[x] = -1;
         }
-
         for (int i = 0 ; i < tempCards.length ; i++)
         {
             duplicate = false;
@@ -271,23 +293,40 @@ public class MainActivity extends AppCompatActivity {
             flipcard[cardd] = false;
             msg.setText("pick a card");
             card[cardd].setImageResource(DRAWABLE_ID[52]);
+            if(keeppic2 != -1)
+                card[keeppic2].setImageResource(DRAWABLE_ID[52]);
 
         }else if(pic2 == -1 && flipcard[cardd] == false){
             pic2 = cardd;
             storePic2= cards[cardd];
+            if(keeppic2 != -1)
+                card[keeppic2].setImageResource(DRAWABLE_ID[52]);
+            keeppic2 = cardd;
             flipcard[cardd] = true;
             card[cardd].setImageResource(DRAWABLE_ID[cards[cardd]]);
-            if (pic==pic2){
+
+            if (storePic==storePic2){
                 msg.setText("Corret!!");
+                keeppic2 =-1;
+                pic= -1;
+                pic2=-1;
+                storePic =-1;
+                storePic2=-1;
                 scor++;
                 score.setText("Score: "+scor);
+
             }else{
                 msg.setText("pick another one");
-
+                flipcard[cardd] =false;
                 card[cardd].setImageResource(DRAWABLE_ID[52]);
                 pic2 = -1;
                 storePic2 = -1;
             }
+          }
+          if(scor == 4){
+            msg.setText("You Win!!");
+              resetButton.setVisibility(View.VISIBLE);
+              resetButton.setText("Reset");
           }
         }
     }
